@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<beans xmlns="http://www.springframework.org/schema/beans"   
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"   
+    xmlns:context="http://www.springframework.org/schema/context"   
+    xmlns:mvc="http://www.springframework.org/schema/mvc"   
+    xmlns:cache="http://www.springframework.org/schema/cache" 
+    xsi:schemaLocation="http://www.springframework.org/schema/beans     
+                        http://www.springframework.org/schema/beans/spring-beans-4.2.xsd     
+                        http://www.springframework.org/schema/context     
+                        http://www.springframework.org/schema/context/spring-context-4.2.xsd     
+                        http://www.springframework.org/schema/mvc     
+                        http://www.springframework.org/schema/mvc/spring-mvc-4.2.xsd 
+                        http://www.springframework.org/schema/cache  
+                        http://www.springframework.org/schema/cache/spring-cache-4.2.xsd">
+    <!-- 使用注解驱动，其中属性cache-manager默认值为cacheManager，
+         如果缓存管理器的名称页数cacheManager, 则无需重新定义-->
+    <cache:annotation-driven cache-manager="redisCacheManager"/>
+    <!-- 定义缓存管理器，如果使用id="cacheManager"，则驱动不需要显示配置cache-manager属性 -->
+    <bean id="redisCacheManager" class="org.springframework.data.redis.cache.RedisCacheManager">
+     <!-- 通过构造方法注入，RedisTemplate -->
+     <constructor-arg index="0" ref="redisTemplate"/>
+     <!-- 定义默认的超时时间  单位秒-->
+     <property name="defaultExpiration" value="600"/>
+     <!--缓存管理器的名称 -->
+     <property name="cacheNames">
+       <list>
+         <value>redisCacheManager</value>
+       </list>
+     </property>
+    </bean>
+    <!-- 加载配置文件 -->
+   <!--   <context:property-placeholder location="classpath:redis.properties" /> -->
+    <!-- redis连接池配置--> 
+    <bean id="jedisPoolConfig" class="redis.clients.jedis.JedisPoolConfig" > 
+        <!--最大空闲数--> 
+        <property name="maxIdle" value="10" /> 
+        <!--连接池的最大数据库连接数  -->
+        <property name="maxTotal" value="10" />
+        <!--最大建立连接等待时间--> 
+        <property name="maxWaitMillis" value="1000" /> 
+        <!--逐出连接的最小空闲时间 默认1800000毫秒(30分钟)-->
+        <property name="minEvictableIdleTimeMillis" value="300000" />
+        <!--每次逐出检查时 逐出的最大数目 如果为负数就是 : 1/abs(n), 默认3-->
+        <property name="numTestsPerEvictionRun" value="1024" />
+        <!--逐出扫描的时间间隔(毫秒) 如果为负数,则不运行逐出线程, 默认-1-->
+        <property name="timeBetweenEvictionRunsMillis" value="30000" />
+        <!--是否在从池中取出连接前进行检验,如果检验失败,则从池中去除连接并尝试取出另一个--> 
+        <property name="testOnBorrow" value="false" /> 
+        <!--在空闲时检查有效性, 默认false  -->
+        <property name="testWhileIdle" value="false" /> 
+    </bean >
+     
+    <!--redis连接工厂 -->
+    <bean id="jedisConnectionFactory" 
+    class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory"
+     destroy-method="destroy">
+        <property name="poolConfig" ref="jedisPoolConfig"></property>
+        <!--IP地址 -->
+        <property name="hostName" value="127.0.0.1"></property>
+        <!--端口号  -->
+        <property name="port" value="6379"></property>
+        <!--如果Redis设置有密码  -->
+        <property name="password" value="" />
+        <!--客户端超时时间单位是毫秒  -->
+        <property name="timeout" value="2000"></property>
+    </bean> 
+    
+    <!-- 序列化对象 -->
+    <bean id="jdkSerializ"
+     class="org.springframework.data.redis.serializer.JdkSerializationRedisSerializer"/>
+       
+    <bean id="stringRedisSerializ"
+     class="org.springframework.data.redis.serializer.StringRedisSerializer"/>
+     
+    <!--redis操作模版,使用该对象可以操作redis (操作String) -->
+     <bean id="redisTemplate" class="org.springframework.data.redis.core.RedisTemplate"
+        p:connection-factory-ref="jedisConnectionFactory" > 
+        <property name="keySerializer" ref="stringRedisSerializ"/>
+         <property name="valueSerializer" ref="jdkSerializ"/>
+    </bean >
+     <!--redis操作模版,使用该对象可以操作redis (操作Hash) -->
+     <!-- 
+    <bean id="redisTemplate" class="org.springframework.data.redis.core.RedisTemplate"
+        p:connection-factory-ref="jedisConnectionFactory" > 
+        <property name="keySerializer" ref="stringRedisSerializ"/>
+        <property name="defaultSerializer" ref="stringRedisSerializ"/>
+         <property name="valueSerializer" ref="stringRedisSerializ"/>
+    </bean > 
+     -->
+     
+</beans>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+
+  <settings>
+ <!-- 使用懒加载 -->
+    <setting name="lazyLoadingEnabled" value="true"/>
+    <setting name="aggressiveLazyLoading" value="false"/>
+    <!-- 显式开启二级缓存 -->
+    <setting name="cacheEnabled" value="true"/> 
+    <!-- 输出SQL语句，低级的版本可能不支持 -->
+ <!--  <setting name="logImpl" value="STDOUT_LOGGING"/>  --> 
+  
+  <!-- 使用jdbc的getGeneratedKeys 获取数据库的自增主键-->
+  <setting name="useGeneratedKeys" value="true"/>
+  
+  <!-- 使用别名替换列名，默认true -->
+  <!--  <setting name="useColumnLabel" value="true"/> -->
+  
+  <!--   -->
+  </settings>
+</configuration>
