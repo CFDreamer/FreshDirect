@@ -11,7 +11,7 @@ import com.yearjane.dto.FileParams;
 public class SmsSendUtilTest {
   @Test
   public void testSenfSms() {
-	  System.out.println(SmsSendUtil.sendMsg("15871705402", 5001,null));
+//	  System.out.println(SmsSendUtil.sendMsg("15871705402", 5001,null));
   }
   @Test
   public void testDes() throws Exception {
@@ -25,7 +25,7 @@ public class SmsSendUtilTest {
    */
   @Test
   public void tetsUploadImage() throws Exception {
-	  File f=new File("F:/image/kobe.png");
+	  File f=new File("E:/picture/45.jpg");
 	  InputStream iStream= new FileInputStream(f);
 	  String relativePath=PathUtil.getShopImagePath(1);
 	  FileParams params=new FileParams();

@@ -210,8 +210,6 @@
 		      <source>1.8</source>
 		      <target>1.8</target>
 		      <encoding>UTF8</encoding>
-		      <fork>true</fork>
-		      <executable>D:\IstallCatalog\jdk\jdk1.8\bin\javac.exe</executable>
 		    </configuration>
        </plugin>
     </plugins>
