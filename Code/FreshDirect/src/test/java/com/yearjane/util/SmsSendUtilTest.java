@@ -11,7 +11,7 @@ import com.yearjane.dto.FileParams;
 public class SmsSendUtilTest {
   @Test
   public void testSenfSms() {
-	  System.out.println(SmsSendUtil.sendMsg("15927537656", 5001,null));
+	  System.out.println(SmsSendUtil.sendMsg("15871705402", 5001,null));
   }
   @Test
   public void testDes() throws Exception {
