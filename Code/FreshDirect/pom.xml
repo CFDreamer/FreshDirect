@@ -190,11 +190,11 @@
 	    <version>4.5</version>
 	</dependency>
 	<!-- https://mvnrepository.com/artifact/org.apache.httpcomponents/httpcore -->
-	<dependency>
-	    <groupId>org.apache.httpcomponents</groupId>
-	    <artifactId>httpcore</artifactId>
-	    <version>4.4.1</version>
-	</dependency>
+<dependency>
+    <groupId>org.apache.httpcomponents</groupId>
+    <artifactId>httpcore</artifactId>
+    <version>4.4.1</version>
+</dependency>
 	
 	</dependencies>
 	<build>
@@ -210,7 +210,9 @@
 		      <source>1.8</source>
 		      <target>1.8</target>
 		      <encoding>UTF8</encoding>
-		    </configuration>
+		 <!--  <fork>true</fork>
+		      <executable>D:\IstallCatalog\jdk\jdk1.8\bin\javac.exe</executable>   -->   
+		    </configuration>   
        </plugin>
     </plugins>
     </build>

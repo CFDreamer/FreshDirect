@@ -25,12 +25,12 @@ public class SmsSendUtilTest {
    */
   @Test
   public void tetsUploadImage() throws Exception {
-	  File f=new File("E:/picture/45.jpg");
-	  InputStream iStream= new FileInputStream(f);
-	  String relativePath=PathUtil.getShopImagePath(1);
-	  FileParams params=new FileParams();
-	  params.setFileName(f.getName());
-	  params.setInputStream(iStream);
-	  ImageUtil.savePicture(params, relativePath);
+//	  File f=new File("E:/picture/45.jpg");
+//	  InputStream iStream= new FileInputStream(f);
+//	  String relativePath=PathUtil.getShopImagePath(1);
+//	  FileParams params=new FileParams();
+//	  params.setFileName(f.getName());
+//	  params.setInputStream(iStream);
+//	  ImageUtil.savePicture(params, relativePath);
   }
 }
