@@ -1,7 +1,11 @@
 package com.yearjane.dto;
 
 import java.io.InputStream;
-
+/**
+ * 
+ * @author 用于文件保存参数
+ *
+ */
 public class FileParams {
     //图片的文件流
 	private InputStream inputStream;

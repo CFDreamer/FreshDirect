@@ -11,7 +11,7 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
     <!-- 显式开启二级缓存 -->
     <setting name="cacheEnabled" value="true"/> 
     <!-- 输出SQL语句，低级的版本可能不支持 -->
- <!--  <setting name="logImpl" value="STDOUT_LOGGING"/>  --> 
+   <setting name="logImpl" value="STDOUT_LOGGING"/>  
   
   <!-- 使用jdbc的getGeneratedKeys 获取数据库的自增主键-->
   <setting name="useGeneratedKeys" value="true"/>

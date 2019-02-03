@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yearjane.dao.UserInfoDao">
+	<insert id="insertUser" useGeneratedKeys="true" keyProperty="userInfo.id"
+		keyColumn="id">
+		INSERT INTO
+		T_U_USER(username,phone,sex,password,image_path,birthday,sign_time,update_time)
+		VALUES
+		(
+		#{userInfo.username},
+		#{userInfo.phone},
+		#{userInfo.sex},
+		#{userInfo.password},
+		#{userInfo.imagePath},
+		#{userInfo.birthday},
+		#{userInfo.signTime},
+		#{userInfo.updateTime}
+		)
+	</insert>
+
+	<select id="getUserInfoList" resultType="UserInfo">
+		SELECT
+		id as id,
+		username as username,
+		phone as phone,
+		sex as sex,
+		password as password,
+		usagetype as usagetype,
+		image_path as imagePath,
+		birthday as birthday,
+		sign_time as signTime,
+		update_time as updateTime,
+		isenable as isenable,
+		isdeleted as isdeleted,
+		remarks as remarks
+		FROM T_U_USER
+		WHERE 1=1
+		<if test="null!=userInfo.id ">
+			AND id=#{userInfo.id}
+		</if>
+		<if test="null!=userInfo.username">
+			AND username=#{userInfo.username}
+		</if>
+		<if test="null!=userInfo.password">
+			AND password=#{userInfo.password}
+		</if>
+		<if test="null!=userInfo.phone">
+			AND phone=#{userInfo.phone}
+		</if>
+		
+		<if test="null!=userInfo.sex">
+			AND sex=#{userInfo.sex}
+		</if>
+		<if test="null!=userInfo.usagetype">
+			AND usagetype=#{userInfo.usagetype.usagetype}
+		</if>
+		<if test="null!=userInfo.signTime">
+
+		</if>
+		<if test="null!=userInfo.isenable">
+			AND isenable=#{userInfo.isenable}
+		</if>
+		<if test="null!=userInfo.isdeleted">
+			AND isdeleted=#{userInfo.isdeleted}
+		</if>
+	</select>
+
+	<update id="udpateUserInfo">
+		UPDATE T_U_USER
+		<set>
+			<if test="null!=userInfo.phone">
+				phone=#{userInfo.phone},
+			</if>
+			<if test="null!=userInfo.sex">
+				sex=#{userInfo.sex},
+			</if>
+			<if test="null!=userInfo.password">
+				password=#{userInfo.password},
+			</if>
+			<if test="null!=userInfo.usagetype">
+				usagetype=#{userInfo.usagetype.usagetype},
+			</if>
+			<if test="null!=userInfo.imagePath">
+				image_path=#{userInfo.imagePath},
+			</if>
+			<if test="null!=userInfo.birthday">
+				birthday=#{userInfo.birthday},
+			</if>
+			<if test="null!=userInfo.updateTime">
+				update_time=#{userInfo.updateTime},
+			</if>
+			<if test="null!=userInfo.isenable">
+				isenable=#{userInfo.isenable},
+			</if>
+			<if test="null!=userInfo.isdeleted">
+				isdeleted=#{userInfo.isdeleted},
+			</if>
+			<if test="null!=userInfo.remarks">
+				remarks=#{userInfo.remarks}
+			</if>
+
+		</set>
+
+		<choose>
+			<when test="null!=userInfo.id">
+				WHERE id=#{userInfo.id}
+			</when>
+			<when test="null!=userInfo.username">
+				WHERE username=#{userInfo.username}
+			</when>
+		</choose>
+	</update>
+</mapper>

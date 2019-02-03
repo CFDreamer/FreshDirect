@@ -35,6 +35,7 @@ public class ImageUtil {
 			Thumbnails.of(file.getInputStream()).size(200, 200).outputQuality(0.8f).toFile(dest);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
+			System.out.println("图片处理错误");
 			e.printStackTrace();
 		}
 		return relativeAddr;

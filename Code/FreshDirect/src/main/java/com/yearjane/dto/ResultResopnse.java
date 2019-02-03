@@ -14,6 +14,8 @@ public class ResultResopnse {
 	private Integer resultCode;
 	//状态码对应的信息
 	private String resultMessage;
+	private Boolean status;
+	
 	//返回的内容
 	private Map<String,Object> body;
 	public Integer getResultCode() {
@@ -32,5 +34,15 @@ public class ResultResopnse {
 	public void setBody(Map<String, Object> body) {
 		this.body = body;
 	}
+	public void setResultMessage(String resultMessage) {
+		this.resultMessage = resultMessage;
+	}
+	public Boolean getStatus() {
+		return status;
+	}
+	public void setStatus(Boolean status) {
+		this.status = status;
+	}
+	
 	
 }

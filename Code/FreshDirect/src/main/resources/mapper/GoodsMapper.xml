@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yearjane.dao.GoodsDao">
+	<resultMap type="goodsType" id="goodsTypeResultMap">
+		<id column="typeid" property="typeid" />
+		<result column="typename" property="typename" />
+		<result column="add_time" property="addTime" />
+		<result column="update_time" property="updateTime" />
+		<result column="operator_name" property="operatorName" />
+		<result column="isdeleted" property="isdeleted" />
+		<association property="parent" javaType="goodsType"
+			column="parent_id"  fetchType="eager" select="com.yearjane.dao.GoodsDao.queryGoodsType">
+		</association>
+	</resultMap>
+
+	<!-- 查询商品类型 -->
+	<select id="queryGoodsTypeList" resultMap="goodsTypeResultMap">
+		SELECT *
+		FROM T_G_TYPE
+		WHERE 1=1
+		<if test="null==goodsType.parent">
+			and parent_id is null
+		</if>
+
+		<if test="null!=goodsType.parent">
+			and parent_id is not null
+		</if>
+
+		<if test="null!=goodsType.parent">
+			and parent_id=#{goodsType.parent.typeid}
+		</if>
+		
+		<if test="null!=goodsType.isdeleted">
+			and isdeleted=#{goodsType.isdeleted}
+		</if>
+
+	</select>
+
+	<!-- 根据typeid查询商品类型 -->
+	<select id="queryGoodsType" resultMap="goodsTypeResultMap">
+		SELECT typeid,typename
+		FROM T_G_TYPE
+		WHERE typeid=#{typeid}
+	</select>
+	
+	<!-- 根据typename查询商品类型 -->
+	<select id="queryGoodsTypeByTypename" resultMap="goodsTypeResultMap">
+		SELECT typeid,typename
+		FROM T_G_TYPE
+		WHERE typename=#{typename}
+		AND
+		isdeleted=0
+	</select>
+
+	<!-- 更新商品信息 -->
+	<update id="updateGoodsType">
+		UPDATE T_G_TYPE
+		<set>
+			<if test="null!=goodsType.typename">
+				typename=#{goodsType.typename},
+			</if>
+
+			<if test="null!=goodsType.parent">
+				parent_id=#{goodsType.parent.typeid},
+			</if>
+
+			<if test="null!=goodsType.updateTime">
+				update_time=#{goodsType.updateTime},
+			</if>
+
+			<if test="null!=goodsType.operatorName">
+				operator_name=#{goodsType.operatorName},
+			</if>
+
+			<if test="null!=goodsType.isdeleted">
+				isdeleted=#{goodsType.isdeleted}
+			</if>
+		</set>
+		WHERE typeid=#{goodsType.typeid}
+	</update>
+
+	<insert id="addGoodsType">
+      INSERT INTO T_G_TYPE(typename,parent_id,add_time,update_time,operator_name)
+      VALUES
+      <foreach collection="goodsTypeList" separator="," item="list">
+        (
+        #{list.typename},
+        #{list.parent.typeid},
+        #{list.addTime},
+        #{list.updateTime},
+        #{list.operatorName}
+        )
+      </foreach>
+	</insert>
+</mapper>

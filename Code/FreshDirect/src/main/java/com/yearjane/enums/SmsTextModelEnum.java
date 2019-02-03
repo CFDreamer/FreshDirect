@@ -6,12 +6,13 @@ package com.yearjane.enums;
  *
  */
 public enum SmsTextModelEnum {
+	FINDPASSWORD(5001,"【鲜直达】尊敬的用户，您的验证码为:"),
 	//注册短信模板
-	REGISTERMODEL(5001,"【鲜直达】尊敬的用户，欢迎使用鲜直达平台，您的验证码为:"),
+	REGISTERMODEL(5002,"【鲜直达】尊敬的用户，欢迎使用鲜直达平台，您的验证码为:"),
 	//登录短信模板
-	LOGINMODEL(5002,"【鲜直达】尊敬的用户，您的临时登录密码为:"),
+	LOGINMODEL(5003,"【鲜直达】尊敬的用户，您的临时登录密码为:");
 	//找回密码的短信模板
-	FINDPASSWORD(5003,"【鲜直达】尊敬的用户，您的验证码为:");
+	
     private Integer modelCode;
 	private String modelText;
 	private SmsTextModelEnum(Integer modelCode,String modelText) {

@@ -15,9 +15,9 @@ public class SmsSendUtilTest {
   }
   @Test
   public void testDes() throws Exception {
-	  String mixStr=DESUtil.getEncryString("abc1787690905");
-	  System.out.println(mixStr);
-	  System.out.println(DESUtil.getDecipherString(mixStr));
+//	  String mixStr=DESUtil.getEncryString("abc1787690905");
+//	  System.out.println(mixStr);
+//	  System.out.println(DESUtil.getDecipherString("MpWaYrLPRNbRf2OnYDgJV5Koytc3i2l819YtakGAl8sQz=R=DQX7h0X1GlEVjwd4Kxe1fPeTpno1fRfxLNwG9N0"));
   }
   /**
    * 测试图片上传
