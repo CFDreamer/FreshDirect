@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -50,13 +51,30 @@ public class UserInfoController {
 	 * @return
 	 * @throws IOException
 	 */
+	@CrossOrigin(origins = "*", maxAge = 3600)
 	@PostMapping("/register")
 	@ResponseBody
 	public Map<String, Object> register(@RequestParam("username") String username, @RequestParam("phone") String phone,
 			@RequestParam("sex") String sex, @RequestParam("password") String password,
 			@RequestParam("birthday") String birthday,
-			@RequestParam(value = "imagePath", required = false) MultipartFile userImage) throws IOException {
+			@RequestParam(value = "imagePath", required = false) MultipartFile userImage,
+			@RequestParam("captcha") String captcha,
+			HttpServletRequest request) throws IOException {
 		Map<String, Object> map = new HashMap<String, Object>();
+		/**
+		 * 验证手机验证码
+		 */
+		String v_captcha=null;
+		try {
+			v_captcha=(String) request.getSession().getAttribute(phone);
+		} catch (Exception e) {
+			map.put(GlobalParams.RESULT_MESSAGE, new ErrorMessageExecution(ResultResponseEnum.PHONE_CAPTCHA_INPUT_ERROR,false));
+		    return map;
+		}
+		if(v_captcha==null||!v_captcha.equals(captcha)) {
+			map.put(GlobalParams.RESULT_MESSAGE, new ErrorMessageExecution(ResultResponseEnum.PHONE_CAPTCHA_INPUT_ERROR,false));
+		    return map;
+		}
 		FileParams params = null;
 		if (null != userImage) {
 			params = new FileParams();
