@@ -19,4 +19,6 @@ public class GlobalParams {
 	public final static String BASEPATH="F:/firstdirect/images/";
 	//用户默认头像的存放位置
 	public final static String DEFAULT_USER_IMAGEPATH="test/test/test.jpg";
+	//商品的存放路径
+	public final static String GOODS_PATH="upload/item/goods/";
 }
