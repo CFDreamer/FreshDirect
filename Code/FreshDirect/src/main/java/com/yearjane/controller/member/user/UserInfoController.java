@@ -31,7 +31,7 @@ import com.yearjane.global.GlobalParams;
 import com.yearjane.service.UserInfoService;
 import com.yearjane.util.DateFormatUtil;
 import com.yearjane.util.UserValidationUtil;
-
+@CrossOrigin(origins = "*", maxAge = 3600)
 @Controller
 @RequestMapping("/user")
 public class UserInfoController {
@@ -51,7 +51,6 @@ public class UserInfoController {
 	 * @return
 	 * @throws IOException
 	 */
-	@CrossOrigin(origins = "*", maxAge = 3600)
 	@PostMapping("/register")
 	@ResponseBody
 	public Map<String, Object> register(@RequestParam("username") String username, @RequestParam("phone") String phone,
@@ -109,7 +108,7 @@ public class UserInfoController {
 	 * @param request
 	 * @return
 	 */
-	@GetMapping("/login")
+	@PostMapping("/login")
 	@ResponseBody
 	public Map<String, Object> loginUser(@RequestParam(value = "loginname", required = false) String loginName,
 			@RequestParam(value = "password", required = false) String password,
@@ -250,7 +249,7 @@ public class UserInfoController {
 	 * @param request
 	 * @return
 	 */
-	@PutMapping("/updatephone/{userid}")
+	@PostMapping("/updatephone/{userid}")
 	@ResponseBody
 	public Map<String,Object> updatePhoneNumber(
 			@PathVariable Integer userid,

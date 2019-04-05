@@ -7,7 +7,8 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -24,6 +25,7 @@ import com.yearjane.util.SmsSendUtil;
  * @author 陈小锋
  *
  */
+@CrossOrigin(origins = "*", maxAge = 3600)
 @Controller
 @RequestMapping("/sms")
 public class SmsCodeController {
@@ -38,7 +40,7 @@ public class SmsCodeController {
 	 * @param length:验证码的长度
 	 * @param request
 	 */
-	@GetMapping("/sendcode")
+	@PostMapping("/sendcode")
 	@ResponseBody
 	public Map<String, Object> sendCode(@RequestParam("phonenumber") String phoneNumber,
 			@RequestParam("captchatype") String captchaType,

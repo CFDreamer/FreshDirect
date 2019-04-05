@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -28,6 +29,7 @@ import com.yearjane.global.GlobalParams;
 import com.yearjane.service.GoodsService;
 import com.yearjane.util.UserValidationUtil;
 
+@CrossOrigin(origins = "*", maxAge = 3600)
 @Controller
 @RequestMapping("/goods")
 public class GoodsController {
@@ -128,7 +130,7 @@ public class GoodsController {
 		return map;
 	}
 	
-	@DeleteMapping("/deletegoodstype/{userid}")
+	@PostMapping("/deletegoodstype/{userid}")
 	@ResponseBody
 	public Map<String,Object> deleteGoodType(@RequestBody List<Integer> goodstypeidlist,@PathVariable("userid") Integer userid,HttpServletRequest request){
 		System.out.println(goodstypeidlist);

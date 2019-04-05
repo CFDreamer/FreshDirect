@@ -18,7 +18,7 @@ public class GoodsInfo extends Base{
 	//商品的类型
 	private GoodsType goodstype;
 	//商品的名字
-	private String Goodsname;
+	private String goodsname;
 	//商品的图片
 	private String imagePath;
 	//商品的介绍
@@ -30,7 +30,7 @@ public class GoodsInfo extends Base{
 	//商品的创建时间
 	private Date createTime;
 	//最后的修改时间
-	private Date UpdateTime;
+	private Date updateTime;
 	//商品的销量
 	private Integer sellCount;
 	//商品是否上架（0：不上架；1：上架）
@@ -53,11 +53,12 @@ public class GoodsInfo extends Base{
 	public void setGoodstype(GoodsType goodstype) {
 		this.goodstype = goodstype;
 	}
+	
 	public String getGoodsname() {
-		return Goodsname;
+		return goodsname;
 	}
 	public void setGoodsname(String goodsname) {
-		Goodsname = goodsname;
+		this.goodsname = goodsname;
 	}
 	public String getImagePath() {
 		return imagePath;
@@ -91,14 +92,15 @@ public class GoodsInfo extends Base{
 		this.createTime = createTime;
 	}
 	@JsonSerialize(using=CustomDateYMDHDSSerialize.class)
-	public Date getUpdateTime() {
-		return UpdateTime;
-	}
-	public void setUpdateTime(Date updateTime) {
-		UpdateTime = updateTime;
-	}
+	
 	public Integer getSellCount() {
 		return sellCount;
+	}
+	public Date getUpdateTime() {
+		return updateTime;
+	}
+	public void setUpdateTime(Date updateTime) {
+		this.updateTime = updateTime;
 	}
 	public void setSellCount(Integer sellCount) {
 		this.sellCount = sellCount;
