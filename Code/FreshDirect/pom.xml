@@ -58,7 +58,7 @@
 	    <version>${spring.version}</version>
 	</dependency>
 	
-	<!-- (5)为jdbc，Hibernate，JPA,JDO提供一致的声明式和编程式事务管理 -->
+	<!-- (5)为jdbc，Hibernate，JPA,JDO提供一致的声明式和编程式事务管理  -->
 	<dependency>
 	    <groupId>org.springframework</groupId>
 	    <artifactId>spring-tx</artifactId>
