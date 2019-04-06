@@ -13,6 +13,27 @@
 			column="parent_id"  fetchType="eager" select="com.yearjane.dao.GoodsDao.queryGoodsType">
 		</association>
 	</resultMap>
+	 
+	<resultMap type="goodsInfo" id="goodsInfoResultMap">
+	   <id column="id" property="id"/>
+	   
+	   <result column="goods_name" property="goodsname" />
+	   <result column="image_path" property="imagePath" />
+	   <result column="introduce" property="introduce" />
+	   <result column="now_price" property="nowPrice" />
+	   <result column="old_price" property="oldPrice" />
+	   <result column="create_time" property="createTime" />
+	   <result column="update_time" property="updateTime" />
+	   <result column="sell_count" property="sellCount" />
+	   <result column="isenable" property="isenable" />
+	   <result column="clickcount" property="clickCout" />
+	   <result column="stock" property="stock" />
+	   <result column="operator_name" property="operatorName" />
+	   <result column="isdeleted" property="isdeleted" />
+	   <association  property="goodstype" javaType="goodsType"
+	     column="typeid"  fetchType="eager" select="com.yearjane.dao.GoodsDao.queryGoodsType">
+	   </association>
+	</resultMap>
 
 	<!-- 查询商品类型 -->
 	<select id="queryGoodsTypeList" resultMap="goodsTypeResultMap">
@@ -93,4 +114,128 @@
         )
       </foreach>
 	</insert>
+	
+	<insert id="addGoodsInfo">
+	   INSERT INTO t_g_info(typeid,goods_name,image_path,introduce,now_price,old_price,create_time,update_time,stock,operator_name,isenable)
+	   VALUES
+	   (
+	    #{goodsInfo.goodstype.typeid},
+	    #{goodsInfo.goodsname},
+	    #{goodsInfo.imagePath},
+	    #{goodsInfo.introduce},
+	    #{goodsInfo.nowPrice},
+	    #{goodsInfo.oldPrice},
+	    #{goodsInfo.createTime},
+	    #{goodsInfo.updateTime},
+	    #{goodsInfo.stock},
+	    #{goodsInfo.operatorName},
+	    #{goodsInfo.isenable}
+	   )
+	</insert> 
+	
+	<update  id="updateGoodsInfo">
+	UPDATE t_g_info 
+	  <set>
+	    <if test="null!=goodsInfo.goodstype">
+	      typeid=#{goodsInfo.goodstype.typeid},
+	    </if>
+	    <if test="null!=goodsInfo.goodsname">
+	      goods_name=#{goodsInfo.goodsname},
+	    </if>
+	    <if test="null!=goodsInfo.imagePath">
+	      image_path=#{goodsInfo.imagePath},
+	    </if>
+	    <if test="null!=goodsInfo.introduce">
+	      introduce=#{goodsInfo.introduce},
+	    </if>
+	    <if test="null!=goodsInfo.nowPrice">
+	      now_price=#{goodsInfo.nowPrice},
+	    </if>
+	    <if test="null!=goodsInfo.oldPrice">
+	      old_price=#{goodsInfo.oldPrice},
+	    </if>
+	    <if test="null!=goodsInfo.createTime">
+	      create_time=#{goodsInfo.createTime},
+	    </if>
+	    <if test="null!=goodsInfo.updateTime">
+	      update_time=#{goodsInfo.updateTime},
+	    </if>
+	    <if test="null!=goodsInfo.sellCount">
+	      sell_count=#{goodsInfo.sellCount},
+	    </if>
+	    <if test="null!=goodsInfo.isenable">
+	      isenable=#{goodsInfo.isenable},
+	    </if>
+	    <if test="null!=goodsInfo.clickCout">
+	      clickcount=#{goodsInfo.clickCout},
+	    </if>
+	    <if test="null!=goodsInfo.stock">
+	      stock=#{goodsInfo.stock},
+	    </if>
+	    <if test="null!=goodsInfo.operatorName">
+	      operator_name=#{goodsInfo.operatorName}
+	    </if>
+	  </set>
+	  WHERE id=#{goodsInfo.id}
+	</update>
+	
+	<update id="deleteGoodsInfo">
+	  UPDATE t_g_info SET isdeleted=1
+	  WHERE id in
+	  <foreach collection="goodsIds" open="(" separator="," close=")" item="id">
+	    #{id}
+	  </foreach>
+	</update>
+	
+	<select id="getGoodsInfo" resultMap="goodsInfoResultMap">
+	   SELECT * FROM t_g_info 
+	   WHERE isdeleted=0 AND id=#{goodsInfo.id}
+	</select>
+	
+	<select id="getGoodsInfos" resultMap="goodsInfoResultMap">
+	   SELECT * FROM t_g_info 
+	   WHERE isdeleted=0 
+	   <if test="null!=goodsInfo.goodstype">
+	   AND typeid=#{goodsInfo.goodstype.typeid}
+	   </if>
+	   
+	   <if test="null!=goodsInfo.isenable">
+	   AND isenable=#{goodsInfo.isenable}
+	   </if>
+	   
+	   <if test="1==goodsInfoSearch.isDiscount">
+	   AND old_price!=now_price
+	   </if>
+	   <if test="0==goodsInfoSearch.isDiscount">
+	   AND old_price=now_price
+	   </if>
+	   
+	   ORDER BY clickcount
+	   
+	   limit #{star},#{end}
+	   
+	   
+	   
+	</select>
+	
+	<select id="getGoodsInfoCount"  resultType="integer">
+	  SELECT count(1) FROM t_g_info 
+	   WHERE isdeleted=0 
+	   <if test="null!=goodsInfo.goodstype">
+	   AND typeid=#{goodsInfo.goodstype.typeid}
+	   </if>
+	   
+	   <if test="null!=goodsInfo.isenable">
+	   AND isenable=#{goodsInfo.isenable}
+	   </if>
+	   
+	   <if test="1==goodsInfoSearch.isDiscount">
+	   AND old_price!=now_price
+	   </if>
+	   
+	   <if test="0==goodsInfoSearch.isDiscount">
+	   AND old_price=now_price
+	   </if>
+	  
+	</select>
 </mapper>

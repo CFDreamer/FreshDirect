@@ -1,8 +1,8 @@
 package com.yearjane.dto;
 
-import java.util.List;
 
 import com.yearjane.entity.GoodsInfo;
+import com.yearjane.enums.ResultResponseEnum;
 
 /**
  * 商品的Execution
@@ -12,19 +12,51 @@ import com.yearjane.entity.GoodsInfo;
 public class GoodsExecution extends BaseExecution {
 
 	private GoodsInfo goodsInfo;
-	private List<GoodsInfo> goodInfoList;
+	private Page page;
 	public GoodsInfo getGoodsInfo() {
 		return goodsInfo;
 	}
 	public void setGoodsInfo(GoodsInfo goodsInfo) {
 		this.goodsInfo = goodsInfo;
 	}
-	public List<GoodsInfo> getGoodInfoList() {
-		return goodInfoList;
-	}
-	public void setGoodInfoList(List<GoodsInfo> goodInfoList) {
-		this.goodInfoList = goodInfoList;
-	}
 	
+	
+	public Page getPage() {
+		return page;
+	}
+	public void setPage(Page page) {
+		this.page = page;
+	}
+	/**
+	 * 只返回结果和状态的构造器
+	 * @param responseEnum
+	 * @param status
+	 */
+	public GoodsExecution (ResultResponseEnum responseEnum,Boolean status) {
+		super(responseEnum,status);
+	}
+	/**
+	 * 操作单个
+	 * @param responseEnum
+	 * @param goodsTpye
+	 * @param status
+	 */
+	public GoodsExecution(ResultResponseEnum responseEnum,GoodsInfo goodsInfo,Boolean status) {
+		super(responseEnum,status);
+		this.goodsInfo=goodsInfo;
+	}
+	/**
+	 * 批量操作
+	 * @param responseEnum
+	 * @param goodsTypeList
+	 * @param status
+	 */
+	public GoodsExecution(ResultResponseEnum responseEnum,Page page,Boolean status) {
+		super(responseEnum,status);
+		this.page = page;
+	}
+	public GoodsExecution () {
+
+	}
 	
 }

@@ -2,7 +2,10 @@ package com.yearjane.service;
 
 import java.util.List;
 
+import com.yearjane.dto.GoodsExecution;
+import com.yearjane.dto.GoodsInfoSearch;
 import com.yearjane.dto.GoodsTypeExecution;
+import com.yearjane.entity.GoodsInfo;
 import com.yearjane.entity.GoodsType;
 
 /**
@@ -37,5 +40,41 @@ public interface GoodsService {
 	 * @return
 	 */
 	public GoodsTypeExecution deleteGoodsType(List<Integer> goodsTypeIdList);
+	
+	/**
+	 * 商品的新增
+	 * @param goodsInfo
+	 * @return
+	 */
+	public GoodsExecution addGoodsInfo(GoodsInfo goodsInfo);
+	
+	/**
+	 * 商品的修改
+	 * @param goodsInfo
+	 * @return
+	 */
+	public GoodsExecution updateGoodsInfo(GoodsInfo goodsInfo);
+	
+	/**
+	 * 商品的详细信息查询
+	 * @param goodsInfo
+	 * @return
+	 */
+	public GoodsExecution getGoodsInfo(GoodsInfo goodsInfo);
+	
+	/**
+	 * 商品的删除
+	 * @param goodInfoIds
+	 * @return
+	 */
+	public GoodsExecution deletedGoodsInfo(List<Integer> goodInfoIds);
+	
+	/**
+	 * 商品的分页查询
+	 * @param goodsInfo
+	 * @param search
+	 * @return
+	 */
+	public GoodsExecution getdGoodsInfos(GoodsInfo goodsInfo,GoodsInfoSearch search,Integer pageNo,Integer pageSize);
 	
 }

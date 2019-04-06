@@ -1,5 +1,6 @@
 package com.yearjane.service.impl;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -8,7 +9,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.yearjane.dao.GoodsDao;
+import com.yearjane.dto.GoodsExecution;
+import com.yearjane.dto.GoodsInfoSearch;
 import com.yearjane.dto.GoodsTypeExecution;
+import com.yearjane.dto.Page;
+import com.yearjane.entity.GoodsInfo;
 import com.yearjane.entity.GoodsType;
 import com.yearjane.enums.ResultResponseEnum;
 import com.yearjane.service.GoodsService;
@@ -86,6 +91,94 @@ public class GoodsServiceImpl implements GoodsService {
 			}
 		}
 		execution=new GoodsTypeExecution(ResultResponseEnum.RESULTSUCCESS,true);
+		return execution;
+	}
+	
+	@Transactional
+	@Override
+	public GoodsExecution addGoodsInfo(GoodsInfo goodsInfo) {
+		GoodsExecution execution=new GoodsExecution(ResultResponseEnum.SYSTEM_INNER_ERROR,false);
+		goodsInfo.setCreateTime(new Date());
+		goodsInfo.setUpdateTime(new Date());
+		int effect=0;
+		try {
+			effect=dao.addGoodsInfo(goodsInfo);
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+			execution=new GoodsExecution(ResultResponseEnum.RESULT_FAIL,false);
+			return execution;
+		}
+		
+		if(effect<=0) {
+			throw new RuntimeException("添加失败");
+		}
+		execution=new GoodsExecution(ResultResponseEnum.RESULTSUCCESS,true);
+		return execution;
+	}
+	
+	@Transactional
+	@Override
+	public GoodsExecution updateGoodsInfo(GoodsInfo goodsInfo) {
+		GoodsExecution execution=new GoodsExecution(ResultResponseEnum.SYSTEM_INNER_ERROR,false);
+		goodsInfo.setUpdateTime(new Date());
+		int effect=0;
+		try {
+			effect=dao.updateGoodsInfo(goodsInfo);
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+			execution=new GoodsExecution(ResultResponseEnum.RESULT_FAIL,false);
+			return execution;
+		}
+		
+		if(effect<=0) {
+			throw new RuntimeException("更新失败");
+		}
+		execution=new GoodsExecution(ResultResponseEnum.RESULTSUCCESS,true);
+		return execution;
+	}
+	
+	@Transactional
+	@Override
+	public GoodsExecution getGoodsInfo(GoodsInfo goodsInfo) {
+		GoodsExecution execution=new GoodsExecution(ResultResponseEnum.SYSTEM_INNER_ERROR,false);
+		GoodsInfo g=dao.getGoodsInfo(goodsInfo);
+		execution=new  GoodsExecution(ResultResponseEnum.RESULTSUCCESS,g,true);
+		return execution;
+	}
+	
+	
+	@Transactional
+	@Override
+	public GoodsExecution deletedGoodsInfo(List<Integer> goodInfoIds) {
+		// TODO Auto-generated method stub
+		GoodsExecution execution=new GoodsExecution(ResultResponseEnum.SYSTEM_INNER_ERROR,false);
+		dao.deleteGoodsInfo(goodInfoIds);
+		execution=new GoodsExecution(ResultResponseEnum.RESULTSUCCESS,true);
+		return execution;
+	}
+
+	@Override
+	public GoodsExecution getdGoodsInfos(GoodsInfo goodsInfo, GoodsInfoSearch search, Integer pageNo,Integer pageSize) {
+		GoodsExecution execution=new GoodsExecution(ResultResponseEnum.SYSTEM_INNER_ERROR,false);
+		
+		if(null==pageSize) {
+			pageSize=10;
+		}
+		//查询总的记录数
+		int totalCount=dao.getGoodsInfoCount(goodsInfo, search);
+		//计算总页数
+		int totalPage=(totalCount%pageSize==0)?(totalCount/pageSize):(totalCount/pageSize)+1;
+		//如果当前页大于总页数则为第一页
+		pageNo=pageNo>totalPage?1:pageNo;
+		//计算起始索引
+		int star=(pageNo-1)*pageSize;
+		List<GoodsInfo> list=new ArrayList<GoodsInfo>();
+		list=dao.getGoodsInfos(goodsInfo, search, star, pageSize);
+		Page page=new Page();
+		page.setGoodList(list);
+		page.setTotalCount(totalCount);
+		page.setTotalPage(totalPage);
+		execution=new GoodsExecution(ResultResponseEnum.RESULTOK,page,true);
 		return execution;
 	}
 

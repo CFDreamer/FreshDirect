@@ -11,17 +11,20 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.yearjane.dto.GoodsExecution;
+import com.yearjane.dto.GoodsInfoSearch;
 import com.yearjane.dto.GoodsTypeExecution;
 import com.yearjane.dto.GoodsTypeSearch;
+import com.yearjane.entity.GoodsInfo;
 import com.yearjane.entity.GoodsType;
 import com.yearjane.entity.UserInfo;
 import com.yearjane.enums.ResultResponseEnum;
@@ -147,6 +150,175 @@ public class GoodsController {
 		} catch (Exception e) {
 			execution=new GoodsTypeExecution(ResultResponseEnum.RESULT_FAIL, false);
 		}
+		map.put(GlobalParams.RESULT_MESSAGE, execution);
+		return map;
+	}
+	
+	@PostMapping("/addgoodsinfo/{userid}")
+	@ResponseBody
+	public Map<String,Object> addGoodsInfo(
+			@PathVariable("userid") Integer userid,
+			HttpServletRequest request,
+			@RequestParam("goodsname") String goodsName,
+			@RequestParam("imagepath") String imagePath,
+			@RequestParam("typeid") Integer typeid,
+			@RequestParam("oldprice") Double oldPrice,
+			@RequestParam("nowprice") Double nowPrice,
+			@RequestParam("stock") Integer stock,
+			@RequestParam("introduce") String introduce,
+			@RequestParam("isenable") Integer isenable
+			){
+		GoodsExecution execution=new GoodsExecution();
+		Map<String,Object> map=new HashMap<String,Object>();
+		Map<String, Object> viaMap = new HashMap<String, Object>();
+		//验证用户的合法性
+		viaMap=UserValidationUtil.userValidat(request, userid);
+		if(viaMap.size()!=0) {
+			return viaMap;
+		}
+		UserInfo userInfo=(UserInfo)request.getSession().getAttribute("userInfo");
+		GoodsInfo info=new GoodsInfo();
+		GoodsType type=new GoodsType();
+		type.setTypeid(typeid);
+		info.setGoodsname(goodsName);
+		info.setGoodstype(type);
+		info.setImagePath(imagePath);
+		info.setIntroduce(introduce);
+		info.setIsenable(isenable);
+		info.setNowPrice(nowPrice);
+		info.setOldPrice(oldPrice);
+		info.setOperatorName(userInfo.getUsername());
+		info.setStock(stock);
+		
+		try {
+			execution=service.addGoodsInfo(info);
+		} catch (Exception e) {
+			execution=new GoodsExecution(ResultResponseEnum.RESULT_FAIL, false);
+		}
+		map.put(GlobalParams.RESULT_MESSAGE, execution);
+		return map;
+	}
+	@PostMapping("/updategoodsinfo/{userid}")
+	@ResponseBody
+	public Map<String,Object> updateGoodsInfo(
+			@PathVariable("userid") Integer userid,
+			HttpServletRequest request,
+			@RequestParam(value="goodsid",required=false) Integer goodsid,
+			@RequestParam(value="goodsname" ,required=false) String goodsName,
+			@RequestParam(value="imagepath",required=false) String imagePath,
+			@RequestParam(value="typeid",required=false) Integer typeid,
+			@RequestParam(value="oldprice",required=false) Double oldPrice,
+			@RequestParam(value="nowprice",required=false) Double nowPrice,
+			@RequestParam(value="stock",required=false) Integer stock,
+			@RequestParam(value="introduce",required=false) String introduce,
+			@RequestParam(value="isenable",required=false) Integer isenable
+			){
+		GoodsExecution execution=new GoodsExecution();
+		Map<String,Object> map=new HashMap<String,Object>();
+		Map<String, Object> viaMap = new HashMap<String, Object>();
+		//验证用户的合法性
+		viaMap=UserValidationUtil.userValidat(request, userid);
+		if(viaMap.size()!=0) {
+			return viaMap;
+		}
+		UserInfo userInfo=(UserInfo)request.getSession().getAttribute("userInfo");
+		GoodsInfo info=new GoodsInfo();
+		GoodsType type=null;
+		if(null!=typeid) {
+			type=new GoodsType();
+			type.setTypeid(typeid);
+		}
+		info.setId(goodsid);
+		info.setGoodsname(goodsName);
+		info.setGoodstype(type);
+		info.setImagePath(imagePath);
+		info.setIntroduce(introduce);
+		info.setIsenable(isenable);
+		info.setNowPrice(nowPrice);
+		info.setOldPrice(oldPrice);
+		info.setOperatorName(userInfo.getUsername());
+		info.setStock(stock);
+		try {
+			execution=service.updateGoodsInfo(info);
+		} catch (Exception e) {
+			execution=new GoodsExecution(ResultResponseEnum.RESULT_FAIL, false);
+		}
+		map.put(GlobalParams.RESULT_MESSAGE, execution);
+		return map;
+	}
+	@GetMapping("/getgoodsinfo/{userid}/{goodsid}")
+	@ResponseBody
+	public Map<String,Object> getGoodsInfo(
+			@PathVariable("userid") Integer userid,
+			@PathVariable("goodsid") Integer goodsid,
+			HttpServletRequest request
+			){
+		GoodsExecution execution=new GoodsExecution();
+		Map<String,Object> map=new HashMap<String,Object>();
+		Map<String, Object> viaMap = new HashMap<String, Object>();
+		//验证用户的合法性
+		viaMap=UserValidationUtil.userValidat(request, userid);
+		if(viaMap.size()!=0) {
+			return viaMap;
+		}
+		GoodsInfo info=new GoodsInfo();
+		info.setId(goodsid);
+		execution=service.getGoodsInfo(info);
+		map.put(GlobalParams.RESULT_MESSAGE, execution);
+		return map;
+	}
+	
+	@PostMapping("/deletedgoodsinfo/{userid}")
+	@ResponseBody
+	public Map<String,Object> deletedGoodsInfo(
+			@PathVariable("userid") Integer userid,
+			HttpServletRequest request,
+			@RequestBody List<Integer> goodsids
+			){
+		GoodsExecution execution=new GoodsExecution();
+		Map<String,Object> map=new HashMap<String,Object>();
+		Map<String, Object> viaMap = new HashMap<String, Object>();
+		//验证用户的合法性
+		viaMap=UserValidationUtil.userValidat(request, userid);
+		if(viaMap.size()!=0) {
+			return viaMap;
+		}
+		execution=service.deletedGoodsInfo(goodsids);
+		map.put(GlobalParams.RESULT_MESSAGE, execution);
+		return map;
+	}
+	
+	@PostMapping("/getgoodsinfobypage/{userid}")
+	@ResponseBody
+	public Map<String,Object> getGoodsInfoByPage(
+			@PathVariable("userid") Integer userid,
+			HttpServletRequest request,
+			@RequestParam("pageno") Integer pageNo,
+			@RequestParam(value="typeid",required=false) Integer typeid,
+			@RequestParam(value="isenable",required=false) Integer isenable,
+			@RequestParam(value="isdiscount",required=false) Integer isDiscount,
+			@RequestParam(value="pagesize",required=false) Integer pageSize){
+		GoodsExecution execution=new GoodsExecution();
+		Map<String,Object> map=new HashMap<String,Object>();
+		Map<String, Object> viaMap = new HashMap<String, Object>();
+		//验证用户的合法性
+		viaMap=UserValidationUtil.userValidat(request, userid);
+		if(viaMap.size()!=0) {
+			return viaMap;
+		}
+		GoodsInfo info=new GoodsInfo();
+		
+		GoodsType type=null;
+		if(null!=typeid) {
+			type=new GoodsType();
+			type.setTypeid(typeid);
+		}
+		info.setGoodstype(type);
+		info.setIsenable(isenable);
+		GoodsInfoSearch search=new GoodsInfoSearch();
+		System.err.println(isDiscount);
+		search.setIsDiscount(isDiscount);
+		execution=service.getdGoodsInfos(info, search, pageNo, pageSize);
 		map.put(GlobalParams.RESULT_MESSAGE, execution);
 		return map;
 	}

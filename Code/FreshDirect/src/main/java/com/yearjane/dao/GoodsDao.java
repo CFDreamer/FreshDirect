@@ -4,6 +4,8 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 
+import com.yearjane.dto.GoodsInfoSearch;
+import com.yearjane.entity.GoodsInfo;
 import com.yearjane.entity.GoodsType;
 
 /**
@@ -48,6 +50,43 @@ public interface GoodsDao {
 	 * @return
 	 */
 	public int updateGoodsType(@Param("goodsType") GoodsType goodsType);
-
+	
+	/**
+	 * 商品的新增
+	 * @param goodsInfo
+	 * @return
+	 */
+	public int addGoodsInfo(@Param("goodsInfo") GoodsInfo goodsInfo) ;
+	
+	/**
+	 * 商品的修改
+	 * @param goodsInfo
+	 * @return
+	 */
+	public int updateGoodsInfo(@Param("goodsInfo") GoodsInfo goodsInfo);
+	
+	/**
+	 * 商品的删除
+	 * @param goodsIds
+	 * @return
+	 */
+	public int deleteGoodsInfo(@Param("goodsIds") List<Integer> goodsIds);
+	
+	/**
+	 * 查询商品的详细信息（根据id）
+	 * @param goodsInfo
+	 * @return
+	 */
+	public GoodsInfo getGoodsInfo(@Param("goodsInfo") GoodsInfo goodsInfo);
+	
+	/**
+	 * 根据条件批量查询商品信息
+	 * @param goodsInfo
+	 * @return
+	 */
+	public List<GoodsInfo>getGoodsInfos(@Param("goodsInfo") GoodsInfo goodsInfo,@Param("goodsInfoSearch") GoodsInfoSearch goodsInfoSearch,@Param("star") Integer star,@Param("end") Integer end);
+	
+	public int getGoodsInfoCount(@Param("goodsInfo") GoodsInfo goodsInfo,@Param("goodsInfoSearch") GoodsInfoSearch goodsInfoSearch);
+	
 	
 }

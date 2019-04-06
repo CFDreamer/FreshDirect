@@ -26,6 +26,7 @@ public class ImageUpload {
 	@PostMapping("/image/upload")
 	@ResponseBody
 	public Map<String,Object> imageUpload(@RequestParam(value = "image") MultipartFile image) throws IOException{
+		System.out.println(image.getInputStream());
 		Map<String,Object> map=new HashMap<String,Object>();
 		FileParams file=new FileParams();
 		ErrorMessageExecution expection=new ErrorMessageExecution();

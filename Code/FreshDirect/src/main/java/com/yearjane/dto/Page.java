@@ -2,6 +2,8 @@ package com.yearjane.dto;
 
 import java.util.List;
 
+import com.yearjane.entity.GoodsInfo;
+
 /**
  * 分页类
  * 
@@ -9,8 +11,9 @@ import java.util.List;
  *
  */
 public class Page {
+	private Integer totalCount;
 	private Integer totalPage;
-	private List<Object> goodList;
+	private List<GoodsInfo> goodList;
 
 
 	public Integer getTotalPage() {
@@ -21,12 +24,20 @@ public class Page {
 		this.totalPage = totalPage;
 	}
 
-	public List<Object> getGoodList() {
+	public List<GoodsInfo> getGoodList() {
 		return goodList;
 	}
 
-	public void setGoodList(List<Object> goodList) {
+	public void setGoodList(List<GoodsInfo> goodList) {
 		this.goodList = goodList;
 	}
 
+	public Integer getTotalCount() {
+		return totalCount;
+	}
+
+	public void setTotalCount(Integer totalCount) {
+		this.totalCount = totalCount;
+	}
+	
 }

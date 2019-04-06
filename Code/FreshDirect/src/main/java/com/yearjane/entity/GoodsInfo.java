@@ -91,11 +91,12 @@ public class GoodsInfo extends Base{
 	public void setCreateTime(Date createTime) {
 		this.createTime = createTime;
 	}
-	@JsonSerialize(using=CustomDateYMDHDSSerialize.class)
+	
 	
 	public Integer getSellCount() {
 		return sellCount;
 	}
+	@JsonSerialize(using=CustomDateYMDHDSSerialize.class)
 	public Date getUpdateTime() {
 		return updateTime;
 	}
@@ -129,6 +130,13 @@ public class GoodsInfo extends Base{
 	public void setOperatorName(String operatorName) {
 		this.operatorName = operatorName;
 	}
+	@Override
+	public String toString() {
+		return "GoodsInfo [id=" + id + ", goodstype=" + goodstype + ", goodsname=" + goodsname + ", imagePath="
+				+ imagePath + ", introduce=" + introduce + ", nowPrice=" + nowPrice + ", oldPrice=" + oldPrice
+				+ ", createTime=" + createTime + ", updateTime=" + updateTime + ", sellCount=" + sellCount
+				+ ", isenable=" + isenable + ", clickCout=" + clickCout + ", stock=" + stock + ", operatorName="
+				+ operatorName + "]";
+	}
 	
-
 }
