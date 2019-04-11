@@ -189,7 +189,11 @@
 	
 	<select id="getGoodsInfo" resultMap="goodsInfoResultMap">
 	   SELECT * FROM t_g_info 
-	   WHERE isdeleted=0 AND id=#{goodsInfo.id}
+	   WHERE isdeleted=0
+	   <if test="null!=goodsInfo.id">
+	       AND id=#{goodsInfo.id}
+	   </if>
+	   
 	</select>
 	
 	<select id="getGoodsInfos" resultMap="goodsInfoResultMap">
@@ -238,4 +242,52 @@
 	   </if>
 	  
 	</select>
+	
+	<select  id="searchGoodsnameExist" resultMap="goodsInfoResultMap">
+	
+	   SELECT goods_name FROM t_g_info 
+	   WHERE isdeleted=0  
+	   <if test="null!=goodsInfo.id">
+	   AND id !=#{goodsInfo.id}
+	   </if>
+	   <if test="null!=goodsInfo.goodsname">
+	   AND goods_name=#{goodsInfo.goodsname}
+	   </if>
+	
+	</select>
+	
+	<select id="getFirstPageGoodsInfos" resultMap="goodsInfoResultMap">
+	  SELECT * FROM  t_g_info 
+	  WHERE isdeleted=0 
+	  <if test="null!=goodsInfoSearch.isDiscount">
+	   AND old_price!=now_price
+	  </if>
+	  
+	  <if test="null!=goodsInfoSearch.isHot">
+	  AND clickcount>10
+	  </if>
+	  
+	  <if test="null!=goodsInfoSearch.isNewGoods"  >
+	    AND create_time>=DATE_SUB(NOW(),INTERVAL 5 DAY)
+	  </if>
+	  
+	  AND isenable=1
+	  
+	  ORDER BY  clickcount,create_time
+	</select>
+	
+	
+	<select id="getGoodsInfoByGid" resultMap="goodsInfoResultMap">
+	 SELECT * FROM  t_g_info 
+	  WHERE isdeleted=0 AND id=#{gid}
+	</select>
+	
+	<select id="searchSimilarGoods" resultMap="goodsInfoResultMap" >
+	SELECT * FROM t_g_info 
+	WHERE isdeleted=0 
+	  <if test="null!=goodsInfo.goodstype">
+		AND typeid=#{goodsInfo.goodstype.typeid}
+	  </if>
+	</select>
+	
 </mapper>

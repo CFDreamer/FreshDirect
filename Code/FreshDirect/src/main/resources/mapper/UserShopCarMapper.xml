@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yearjane.dao.UserShopCarDao">
+
+   <resultMap type="userShopCar" id="userShopCarMap">
+     <id column="id" property="id"/>
+     <result column="uid" property="uid"/>
+     <result column="count" property="count"/>
+     <result column="add_time" property="addTime"/>
+     <result column="update_time" property="updateTime"/>
+     <result column="isdeleted" property="isdeleted"/>
+     <association property="goodsInfo" javaType="goodsInfo" column="gid" fetchType="eager" select="com.yearjane.dao.GoodsDao.getGoodsInfoByGid">
+     </association>
+   </resultMap>
+   
+   <insert id="addUserShopCar">
+   INSERT INTO T_U_SHOPCAR(uid,gid,count,add_time,update_time)
+   VALUES(#{car.uid},#{car.goodsInfo.id},#{car.count},#{car.addTime},#{car.updateTime})
+   </insert>
+   
+   <update id="updateUserShopCar">
+    UPDATE T_U_SHOPCAR 
+    <set>
+     <if test="null!=car.count">
+     count=#{car.count},
+     </if>
+     <if test="null!=car.updateTime">
+     update_time=#{car.updateTime}
+     </if>
+    </set>
+    WHERE id=#{car.id}
+   </update>
+   
+   <select id="getUserShopCar" resultMap="userShopCarMap">
+   SELECT *  FROM T_U_SHOPCAR 
+   WHERE isdeleted=0
+   <if test="null!=car.id">
+    AND  id=#{car.id}
+   </if>
+   <if test="null!=car.uid">
+   AND uid=#{car.uid}
+   </if>
+   
+   <if test="null!=car.goodsInfo">
+   AND gid=#{car.goodsInfo.id}
+   </if>
+   </select>
+   
+   <update id="deleteUserShopCar">
+    UPDATE T_U_SHOPCAR  SET isdeleted=1
+    WHERE id in
+    <foreach collection="ids" open="(" separator="," close=")"  item="id">
+      #{id}
+    </foreach>
+   </update>
+</mapper>

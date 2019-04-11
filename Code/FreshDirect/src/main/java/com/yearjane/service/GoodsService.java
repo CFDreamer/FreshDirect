@@ -2,6 +2,7 @@ package com.yearjane.service;
 
 import java.util.List;
 
+import com.yearjane.dto.FirstPageExecution;
 import com.yearjane.dto.GoodsExecution;
 import com.yearjane.dto.GoodsInfoSearch;
 import com.yearjane.dto.GoodsTypeExecution;
@@ -76,5 +77,18 @@ public interface GoodsService {
 	 * @return
 	 */
 	public GoodsExecution getdGoodsInfos(GoodsInfo goodsInfo,GoodsInfoSearch search,Integer pageNo,Integer pageSize);
+	
+	/**
+	 * 获取首页三种类型的接口
+	 * @return
+	 */
+	public FirstPageExecution getFirstPageInfo();
+	
+	/**
+	 * 查询类似商品
+	 * @param goodsInfo
+	 * @return
+	 */
+	public GoodsExecution  getSimilarGoods(GoodsInfo goodsInfo);
 	
 }

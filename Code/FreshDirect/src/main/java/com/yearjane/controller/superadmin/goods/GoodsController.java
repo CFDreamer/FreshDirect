@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.yearjane.dto.FirstPageExecution;
 import com.yearjane.dto.GoodsExecution;
 import com.yearjane.dto.GoodsInfoSearch;
 import com.yearjane.dto.GoodsTypeExecution;
@@ -110,7 +111,7 @@ public class GoodsController {
 		return map;
 	}
 	
-	@GetMapping("/querygoodstype/{userid}")
+	@PostMapping("/querygoodstype/{userid}")
 	@ResponseBody
 	public Map<String,Object> querygoodsType(@RequestBody GoodsTypeSearch goodsTypeSearch,@PathVariable("userid") Integer userid,HttpServletRequest request){
 		GoodsTypeExecution execution=new GoodsTypeExecution();
@@ -246,24 +247,26 @@ public class GoodsController {
 		map.put(GlobalParams.RESULT_MESSAGE, execution);
 		return map;
 	}
+	
+	/**
+	 * 查看商品详情
+	 * @param userid
+	 * @param goodsid
+	 * @param request
+	 * @return
+	 */
 	@GetMapping("/getgoodsinfo/{userid}/{goodsid}")
 	@ResponseBody
 	public Map<String,Object> getGoodsInfo(
-			@PathVariable("userid") Integer userid,
 			@PathVariable("goodsid") Integer goodsid,
 			HttpServletRequest request
 			){
 		GoodsExecution execution=new GoodsExecution();
 		Map<String,Object> map=new HashMap<String,Object>();
-		Map<String, Object> viaMap = new HashMap<String, Object>();
-		//验证用户的合法性
-		viaMap=UserValidationUtil.userValidat(request, userid);
-		if(viaMap.size()!=0) {
-			return viaMap;
-		}
 		GoodsInfo info=new GoodsInfo();
 		info.setId(goodsid);
 		execution=service.getGoodsInfo(info);
+		
 		map.put(GlobalParams.RESULT_MESSAGE, execution);
 		return map;
 	}
@@ -319,6 +322,41 @@ public class GoodsController {
 		System.err.println(isDiscount);
 		search.setIsDiscount(isDiscount);
 		execution=service.getdGoodsInfos(info, search, pageNo, pageSize);
+		map.put(GlobalParams.RESULT_MESSAGE, execution);
+		return map;
+	}
+	
+	/**
+	 * 获取首页商品接口
+	 * @return
+	 */
+	@GetMapping("/getfirstpageinfo")
+	@ResponseBody
+	public Map<String,Object> getFirstPageInfo(){
+		Map<String,Object> map=new HashMap<String,Object>();
+		FirstPageExecution execution=new FirstPageExecution();
+		execution=service.getFirstPageInfo();
+		map.put(GlobalParams.RESULT_MESSAGE, execution);
+		return map;
+	}
+	
+	/**
+	 * 获取相似商品接口
+	 * @param typeid
+	 * @return
+	 */
+	@GetMapping("/getsimilargoods/{typeid}")
+	@ResponseBody
+	public Map<String,Object> getSimilarGoods(
+			@PathVariable("typeid") Integer typeid
+			){
+		Map<String,Object> map=new HashMap<String,Object>();
+		GoodsExecution execution=new GoodsExecution();
+		GoodsType type=new GoodsType();
+		type.setTypeid(typeid);
+		GoodsInfo info=new GoodsInfo();
+		info.setGoodstype(type);
+		execution=service.getSimilarGoods(info);
 		map.put(GlobalParams.RESULT_MESSAGE, execution);
 		return map;
 	}

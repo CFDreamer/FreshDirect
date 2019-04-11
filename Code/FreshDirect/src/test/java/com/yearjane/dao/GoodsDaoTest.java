@@ -8,11 +8,13 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.yearjane.basetest.BaseTest;
+import com.yearjane.entity.GoodsInfo;
 import com.yearjane.entity.GoodsType;
 
 public class GoodsDaoTest extends BaseTest{
-//	@Autowired
-//    private GoodsDao dao;
+	@Autowired
+    private GoodsDao dao;
+	
 //	
 //	@Test
 //	public void test() {
@@ -83,5 +85,66 @@ public class GoodsDaoTest extends BaseTest{
 //		dao.addGoodsType(list);
 //		
 //	}
- 
+	/**
+	 * 新增商品测试
+	 */
+//	@Test
+//	public void testAddGoodsInfo() {
+//		for(int i=0;i<100;i++) {
+//		GoodsInfo g=new GoodsInfo();
+//		g.setCreateTime(new Date());
+//		g.setGoodsname("新增商品1");
+//		g.setImagePath("/test/test/test");
+//		g.setIntroduce("这是一个测试的商品");
+//		g.setNowPrice(100.0);
+//		g.setOldPrice(150.0);
+//		g.setOperatorName("chanfrer");
+//		g.setStock(100);
+//		g.setUpdateTime(new Date());
+//		GoodsType type=new GoodsType();
+//		type.setTypeid(1);
+//		g.setGoodstype(type);
+//		int effect =dao.addGoodsInfo(g);
+//		System.out.println(effect);
+//		}
+//	}
+//
+//	/**
+//	 * 更新商品测试
+//	 */
+//	@Test
+//	public void testUpdateGoodsInfo() {
+//		GoodsInfo g=new GoodsInfo();
+//		g.setId(1);
+//		g.setGoodsname("更新测试");
+//		g.setImagePath("/test/test/测试");
+//		g.setNowPrice(100.0);
+//		g.setOldPrice(180.0);
+//		g.setOperatorName("chanfrer");
+//		g.setStock(1000);
+//		g.setUpdateTime(new Date());
+//		GoodsType type=new GoodsType();
+//		type.setTypeid(2);
+//		g.setGoodstype(type);
+//		int effect =dao.updateGoodsInfo(g);
+//		System.out.println(effect);
+//	}
+//	@Test
+//	public void testQueryGoodsInfo() {
+//		GoodsInfo goodsInfo=new GoodsInfo();
+//		goodsInfo.setId(1);
+//		GoodsInfo g=dao.getGoodsInfo(goodsInfo);
+//		System.err.println(g);
+//	}
+//	@Test
+//	public void deletedQueryGoodsInfo() {
+//		List<Integer> list=new ArrayList<Integer>();
+//		list.add(1);
+//		list.add(2);
+//		System.out.println(dao.deleteGoodsInfo(list));
+//	}
+	@Test
+	public void test() {
+		System.out.println(dao.getGoodsInfoByGid(22));
+	}
 }

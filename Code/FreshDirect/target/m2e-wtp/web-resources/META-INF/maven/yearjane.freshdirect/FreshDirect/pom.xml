@@ -58,7 +58,7 @@
 	    <version>${spring.version}</version>
 	</dependency>
 	
-	<!-- (5)为jdbc，Hibernate，JPA,JDO提供一致的声明式和编程式事务管理 -->
+	<!-- (5)为jdbc，Hibernate，JPA,JDO提供一致的声明式和编程式事务管理  -->
 	<dependency>
 	    <groupId>org.springframework</groupId>
 	    <artifactId>spring-tx</artifactId>
@@ -210,8 +210,8 @@
 		      <source>1.8</source>
 		      <target>1.8</target>
 		      <encoding>UTF8</encoding>
-		 <!--  <fork>true</fork>
-		      <executable>D:\IstallCatalog\jdk\jdk1.8\bin\javac.exe</executable>   -->   
+		      <fork>true</fork>
+		      <executable>D:\IstallCatalog\jdk\jdk1.8\bin\javac.exe</executable>     
 		    </configuration>   
        </plugin>
     </plugins>

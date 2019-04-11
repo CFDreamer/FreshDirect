@@ -9,8 +9,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.yearjane.dao.GoodsDao;
+import com.yearjane.dto.FirstPageExecution;
 import com.yearjane.dto.GoodsExecution;
 import com.yearjane.dto.GoodsInfoSearch;
+import com.yearjane.dto.GoodsSearch;
 import com.yearjane.dto.GoodsTypeExecution;
 import com.yearjane.dto.Page;
 import com.yearjane.entity.GoodsInfo;
@@ -98,6 +100,16 @@ public class GoodsServiceImpl implements GoodsService {
 	@Override
 	public GoodsExecution addGoodsInfo(GoodsInfo goodsInfo) {
 		GoodsExecution execution=new GoodsExecution(ResultResponseEnum.SYSTEM_INNER_ERROR,false);
+		
+		/**
+		 * 验证商品名称是否已经存在
+		 */
+		GoodsInfo exist=null;
+		exist=dao.searchGoodsnameExist(goodsInfo);
+		if(null!=exist) {
+			execution=new GoodsExecution(ResultResponseEnum.GOODS_NAME_EXIST,false);
+			return execution;
+		}
 		goodsInfo.setCreateTime(new Date());
 		goodsInfo.setUpdateTime(new Date());
 		int effect=0;
@@ -120,6 +132,15 @@ public class GoodsServiceImpl implements GoodsService {
 	@Override
 	public GoodsExecution updateGoodsInfo(GoodsInfo goodsInfo) {
 		GoodsExecution execution=new GoodsExecution(ResultResponseEnum.SYSTEM_INNER_ERROR,false);
+		/**
+		 * 验证商品名称是否已经存在
+		 */
+		GoodsInfo exist=null;
+		exist=dao.searchGoodsnameExist(goodsInfo);
+		if(null!=exist) {
+			execution=new GoodsExecution(ResultResponseEnum.GOODS_NAME_EXIST,false);
+			return execution;
+		}
 		goodsInfo.setUpdateTime(new Date());
 		int effect=0;
 		try {
@@ -142,6 +163,11 @@ public class GoodsServiceImpl implements GoodsService {
 	public GoodsExecution getGoodsInfo(GoodsInfo goodsInfo) {
 		GoodsExecution execution=new GoodsExecution(ResultResponseEnum.SYSTEM_INNER_ERROR,false);
 		GoodsInfo g=dao.getGoodsInfo(goodsInfo);
+		//商品浏览次数+1
+		GoodsInfo update=new GoodsInfo();
+		update.setId(goodsInfo.getId());
+		update.setClickCout(g.getClickCout()+1);
+		dao.updateGoodsInfo(update);
 		execution=new  GoodsExecution(ResultResponseEnum.RESULTSUCCESS,g,true);
 		return execution;
 	}
@@ -179,6 +205,41 @@ public class GoodsServiceImpl implements GoodsService {
 		page.setTotalCount(totalCount);
 		page.setTotalPage(totalPage);
 		execution=new GoodsExecution(ResultResponseEnum.RESULTOK,page,true);
+		return execution;
+	}
+
+	@Override
+	public FirstPageExecution getFirstPageInfo() {
+		FirstPageExecution execution=new FirstPageExecution(ResultResponseEnum.SYSTEM_INNER_ERROR,false);
+		GoodsInfoSearch info=new GoodsInfoSearch();
+		//获取折扣商品
+		info.setIsDiscount(1);
+		List<GoodsInfo> disCount=dao.getFirstPageGoodsInfos(info);
+		
+		//获取热门商品
+		info=null;
+		info=new GoodsInfoSearch();
+		info.setIsHot(1);
+		List<GoodsInfo> hot=dao.getFirstPageGoodsInfos(info);
+		
+		//获取热门商品
+		info=null;
+		info=new GoodsInfoSearch();
+		info.setIsNewGoods(1);;
+		List<GoodsInfo> newGoods=dao.getFirstPageGoodsInfos(info);
+		
+		execution=new FirstPageExecution(ResultResponseEnum.RESULTOK, disCount, hot, newGoods, true);
+		
+		
+		
+		return execution;
+	}
+
+	@Override
+	public GoodsExecution getSimilarGoods(GoodsInfo goodsInfo) {
+		GoodsExecution execution=new GoodsExecution(ResultResponseEnum.SYSTEM_INNER_ERROR,false);
+		List<GoodsInfo> list=dao.searchSimilarGoods(goodsInfo);
+		execution=new GoodsExecution(ResultResponseEnum.RESULTOK, list, true);
 		return execution;
 	}
 

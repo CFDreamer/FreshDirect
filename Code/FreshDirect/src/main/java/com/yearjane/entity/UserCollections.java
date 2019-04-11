@@ -46,5 +46,9 @@ public class UserCollections extends Base {
 	public void setAddTime(Date addTime) {
 		this.addTime = addTime;
 	}
+	@Override
+	public String toString() {
+		return "UserCollections [id=" + id + ", uid=" + uid + ", gid=" + gid + ", addTime=" + addTime + "]";
+	}
 	
 }

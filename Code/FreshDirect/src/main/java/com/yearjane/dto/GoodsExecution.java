@@ -1,6 +1,8 @@
 package com.yearjane.dto;
 
 
+import java.util.List;
+
 import com.yearjane.entity.GoodsInfo;
 import com.yearjane.enums.ResultResponseEnum;
 
@@ -10,7 +12,7 @@ import com.yearjane.enums.ResultResponseEnum;
  *
  */
 public class GoodsExecution extends BaseExecution {
-
+	private List<GoodsInfo> list;
 	private GoodsInfo goodsInfo;
 	private Page page;
 	public GoodsInfo getGoodsInfo() {
@@ -26,6 +28,13 @@ public class GoodsExecution extends BaseExecution {
 	}
 	public void setPage(Page page) {
 		this.page = page;
+	}
+	
+	public List<GoodsInfo> getList() {
+		return list;
+	}
+	public void setList(List<GoodsInfo> list) {
+		this.list = list;
 	}
 	/**
 	 * 只返回结果和状态的构造器
@@ -45,12 +54,17 @@ public class GoodsExecution extends BaseExecution {
 		super(responseEnum,status);
 		this.goodsInfo=goodsInfo;
 	}
+	
 	/**
 	 * 批量操作
 	 * @param responseEnum
 	 * @param goodsTypeList
 	 * @param status
 	 */
+	public GoodsExecution(ResultResponseEnum responseEnum,List<GoodsInfo> list,Boolean status) {
+		super(responseEnum,status);
+		this.list = list;
+	}
 	public GoodsExecution(ResultResponseEnum responseEnum,Page page,Boolean status) {
 		super(responseEnum,status);
 		this.page = page;

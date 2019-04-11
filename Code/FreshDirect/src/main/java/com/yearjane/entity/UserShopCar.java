@@ -37,10 +37,11 @@ public class UserShopCar  extends Base{
 	public void setUid(Integer uid) {
 		this.uid = uid;
 	}
-	public GoodsInfo getGid() {
+	
+	public GoodsInfo getGoodsInfo() {
 		return goodsInfo;
 	}
-	public void setGid(GoodsInfo goodsInfo) {
+	public void setGoodsInfo(GoodsInfo goodsInfo) {
 		this.goodsInfo = goodsInfo;
 	}
 	public Integer getCount() {
@@ -63,6 +64,10 @@ public class UserShopCar  extends Base{
 	public void setUpdateTime(Date updateTime) {
 		this.updateTime = updateTime;
 	}
+	@Override
+	public String toString() {
+		return "UserShopCar [id=" + id + ", uid=" + uid + ", goodsInfo=" + goodsInfo + ", count=" + count + ", addTime="
+				+ addTime + ", updateTime=" + updateTime + "]";
+	}
 	
-
 }

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yearjane.dao.UserCollectionDao">
+   <resultMap type="userCollections" id="UserCollectionMap">
+     <id column="id" property="id"/>
+     <result column="uid" property="uid"/>
+     <result column="add_time" property="addTime"/>
+     <result column="isdeleted" property="isdeleted"/>
+     <association property="gid" javaType="goodsInfo" column="gid" fetchType="eager" select="com.yearjane.dao.GoodsDao.getGoodsInfoByGid">
+     </association>
+   </resultMap>
+   
+   <select id="getUserCollections" resultMap="UserCollectionMap">
+     SELECT * FROM  t_u_collections
+     WHERE isdeleted=0
+     <if test="null!=userCollections.id">
+      AND id=#{userCollections.id}
+     </if>
+     
+     <if test="null!=userCollections.uid">
+     AND uid=#{userCollections.uid}
+     </if>
+     
+     <if test="null!=userCollections.gid">
+     AND gid=#{userCollections.gid.id}
+     </if>
+   </select>
+   
+   <insert id="addUserCollections">
+     INSERT INTO t_u_collections(uid,gid,add_time) VALUES
+     (#{userCollections.uid},#{userCollections.gid.id},#{userCollections.addTime})
+   </insert>
+   
+   <update id="deletedUserCollections">
+     UPDATE t_u_collections SET isdeleted=1
+     WHERE isdeleted=0 AND uid=#{userCollections.uid}  AND gid=#{userCollections.gid.id}
+   </update>
+</mapper>

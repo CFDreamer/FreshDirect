@@ -24,6 +24,8 @@ public enum ResultResponseEnum {
 	GOODSTYPE_UPDATE_FAIL(1018,"商品类型更新失败"),
 	GOODSTYPE_UPDATE_SUCCESS(1019,"商品类型更新成功"),
 	GOODSTYPE_TYPENAME_EXITED(1020,"商品类型已经存在"),
+	GOODS_NAME_EXIST(1021,"商品名称已经存在"),
+	COLLECTION_EXIST(1022,"已经收藏该商品"),
 	SYSTEM_INNER_ERROR(-1001,"系统内部错误！");
 	
 	private Integer resultCode;

@@ -14,7 +14,7 @@ public class PathUtil {
      * @return
      */
     public  static String getUserProfileImagePath(Integer userId) {
-    	return "upload/item/user/profile"+"/"+userId+"/";
+    	return "upload/item/user/profile"+"/"+userId;
     }
     /**
      * 获取商品图片路径
@@ -22,6 +22,6 @@ public class PathUtil {
      * @return
      */
     public static String getShopImagePath(Integer shopId) {
-    	return "upload/item/shop/"+shopId+"/";
+    	return "/upload/item/shop/"+shopId+"/";
     }
 }

@@ -73,7 +73,7 @@ public interface GoodsDao {
 	public int deleteGoodsInfo(@Param("goodsIds") List<Integer> goodsIds);
 	
 	/**
-	 * 查询商品的详细信息（根据id）
+	 * 查询商品的详细信息（根据id ）
 	 * @param goodsInfo
 	 * @return
 	 */
@@ -88,5 +88,30 @@ public interface GoodsDao {
 	
 	public int getGoodsInfoCount(@Param("goodsInfo") GoodsInfo goodsInfo,@Param("goodsInfoSearch") GoodsInfoSearch goodsInfoSearch);
 	
+	/**
+	 * 检查该商品名称是否存在
+	 */
+	public GoodsInfo searchGoodsnameExist(@Param("goodsInfo") GoodsInfo goodsInfo);
+	
+	
+	/**
+	 * 获取首页商品信息
+	 */
+	
+	public List<GoodsInfo> getFirstPageGoodsInfos(@Param("goodsInfoSearch") GoodsInfoSearch goodsInfoSearch);
+	
+	/**
+	 * 根据id查询商品的信息，用来辅助分步查询
+	 * @param gid
+	 * @return
+	 */
+	public GoodsInfo getGoodsInfoByGid(@Param("gid") Integer gid);
+	
+	/**
+	 * 查询同类商品
+	 * @param goodsInfo
+	 * @return
+	 */
+	public List<GoodsInfo> searchSimilarGoods(@Param("goodsInfo") GoodsInfo goodsInfo);
 	
 }
