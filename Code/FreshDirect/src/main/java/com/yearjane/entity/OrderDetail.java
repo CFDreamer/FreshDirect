@@ -13,7 +13,7 @@ public class OrderDetail extends Base{
 	//订单号
 	private String ono;
 	//商品
-	private GoodsInfo goodsInfo;
+	private GoodsInfo gid;
 	//数量
 	private Integer count;
 	public Integer getId() {
@@ -29,11 +29,12 @@ public class OrderDetail extends Base{
 		this.ono = ono;
 	}
 
-	public GoodsInfo getGoods() {
-		return goodsInfo;
+	
+	public GoodsInfo getGid() {
+		return gid;
 	}
-	public void setGoods(GoodsInfo goodsInfo) {
-		this.goodsInfo = goodsInfo;
+	public void setGid(GoodsInfo gid) {
+		this.gid = gid;
 	}
 	public Integer getCount() {
 		return count;
@@ -41,7 +42,12 @@ public class OrderDetail extends Base{
 	public void setCount(Integer count) {
 		this.count = count;
 	}
-
+	@Override
+	public String toString() {
+		return "OrderDetail [id=" + id + ", ono=" + ono + ", gid=" + gid + ", count=" + count + "]";
+	}
+	
+	
 	
 
 }

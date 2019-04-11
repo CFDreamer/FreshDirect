@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yearjane.dao.OrderDao">
+   <resultMap type="orderInfo" id="orderInfoMap">
+     <id column="id" property="id"/>
+     <result column="ono" property="ono"/>
+     <result column="uid" property="uid"/>
+     <result column="allprice" property="allprice"/>
+     <result column="state" property="state"/>
+     <result column="create_time" property="createTime"/>
+     <result column="update_time" property="updateTime"/>
+     <result column="remarks" property="remarks"/>
+     <association property="address" javaType="userAddress" column="address_id" fetchType="eager" select="com.yearjane.dao.OrderDao.getUserAddressByid">
+     </association>
+   </resultMap>
+   
+  
+   <resultMap type="orderDetail" id="orderDetailMap">
+     <id column="id" property="id"/>
+     <result column="ono" property="ono"/>
+     <result column="count" property="count"/>
+     <result column="isdeleted" property="isdeleted"/>
+     <association property="gid" javaType="goodsInfo" column="gid" fetchType="eager" select="com.yearjane.dao.GoodsDao.getGoodsInfoByGid">
+     </association>
+   </resultMap>
+   
+   <resultMap type="userAddress" id="userAddressMap">
+     <id column="address_id" property="address_id"/>
+     <result column="uid" property="uid"/>
+     <result column="name" property="name"/>
+     <result column="phone" property="phone"/>
+     <result column="address" property="address"/>
+     <result column="isdefault" property="isdefault"/>
+     <result column="use_count" property="useCount"/>
+   </resultMap>
+   
+    <select id="getOrederInfos" resultMap="orderInfoMap">
+     SELECT * FROM T_O_INFO
+     WHERE isdeleted=0
+     <if test="null!=orderInfo.id">
+      AND id=#{orderInfo.id}
+     </if>
+     
+     <if test="null!=orderInfo.state">
+      AND state=#{orderInfo.state}
+     </if>
+     
+     <if test="null!=orderInfo.uid">
+      AND uid=#{orderInfo.uid}
+     </if>
+     
+     ORDER BY create_time DESC
+   </select>
+   <select id="getUserAddressByid" resultMap="userAddressMap">
+     SELECT * FROM T_U_ADDRESS
+     WHERE isdeleted=0 AND address_id=#{id}
+   </select>
+   
+   <insert id="addOrderInfo">
+    INSERT INTO T_O_INFO(ono,uid,allprice,create_time,update_time,address_id,remarks) VALUES
+    (#{orderInfo.ono},#{orderInfo.uid},#{orderInfo.allprice},#{orderInfo.createTime},#{orderInfo.updateTime},#{orderInfo.address.address_id},#{orderInfo.remarks})
+   </insert>
+   
+   <insert id="addOrderDetail">
+    INSERT INTO T_O_DETAIL(ono,gid,count)  VALUES
+    <foreach collection="detailList" separator="," item="list">
+      (
+       #{list.ono},
+       #{list.gid.id},
+       #{list.count}
+      )
+    </foreach>
+    
+
+   </insert>
+   
+    <update id="updateOrderInfo">
+      UPDATE T_O_INFO 
+      <set>
+         <if test="null!=orderInfo.state">
+            state=#{orderInfo.state},
+         </if>
+         
+         <if test="null!=orderInfo.updateTime">
+           update_time=#{orderInfo.updateTime},
+         </if>
+         
+        <if test="null!=orderInfo.isdeleted">
+           isdeleted=1
+        </if>
+      </set>
+      WHERE id=#{orderInfo.id}
+    </update>
+    
+    <update  id="deleteOrderDetail">
+      UPDATE T_O_DETAIL
+      SET isdeleted=1
+      WHERE ono=#{orderDetail.ono}
+    </update>
+    
+    <select id="getOrderDetails" resultMap="orderDetailMap">
+       SELECT * from  T_O_DETAIL
+       WHERE  isdeleted=0
+       <if test="null!=orderDetail.ono">
+       AND ono=#{orderDetail.ono}
+       </if>
+    </select>
+    
+  
+    
+    <insert id="addUserAddress">
+       INSERT INTO  T_U_ADDRESS(uid,name,phone,address,isdefault)
+       VALUES(#{userAddress.uid},#{userAddress.name},#{userAddress.phone},#{userAddress.address},#{userAddress.isdefault})
+    </insert>
+    
+    <update id="updateUserAddress">
+      UPDATE T_U_ADDRESS 
+      <set>
+        <if test="null!=userAddress.name">
+         name=#{userAddress.name},
+        </if>
+        
+        <if test="null!=userAddress.phone">
+          phone=#{userAddress.phone},
+        </if>
+        
+        <if test="null!=userAddress.address">
+          address=#{userAddress.address},
+        </if>
+        
+        <if test="null!=userAddress.isdefault">
+          isdefault=#{userAddress.isdefault},
+        </if>
+        
+        <if test="null!=userAddress.useCount">
+          use_count=#{userAddress.useCount},
+        </if>
+        
+        <if test="null!=userAddress.isdeleted">
+           isdeleted=1
+        </if>
+      </set>
+      
+      WHERE address_id=#{userAddress.address_id}
+    </update>
+    
+    <select id="getUserAddress" resultMap="userAddressMap">
+      SELECT * FROM T_U_ADDRESS
+      WHERE isdeleted=0
+      <if test="null!=userAddress.address_id">
+        AND address_id=#{userAddress.address_id}
+      </if>
+      <if test="null!=userAddress.uid">
+       AND uid=#{userAddress.uid}
+      </if>
+      
+      <if  test="null!=userAddress.isdefault" >
+       AND  isdefault=#{userAddress.isdefault}
+      </if>
+      
+      ORDER BY use_count
+    </select>
+</mapper>

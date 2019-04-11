@@ -29,6 +29,8 @@ public class OrderInfo extends Base{
 	private Date updateTime;
 	//备注
 	private String remarks;
+	//地址
+	private UserAddress address;
 	public Integer getId() {
 		return id;
 	}
@@ -79,6 +81,17 @@ public class OrderInfo extends Base{
 	public void setRemarks(String remarks) {
 		this.remarks = remarks;
 	}
+	public UserAddress getAddress() {
+		return address;
+	}
+	public void setAddress(UserAddress address) {
+		this.address = address;
+	}
+	@Override
+	public String toString() {
+		return "OrderInfo [id=" + id + ", ono=" + ono + ", uid=" + uid + ", allprice=" + allprice + ", state=" + state
+				+ ", createTime=" + createTime + ", updateTime=" + updateTime + ", remarks=" + remarks + ", address="
+				+ address + "]";
+	}
 	
-
 }

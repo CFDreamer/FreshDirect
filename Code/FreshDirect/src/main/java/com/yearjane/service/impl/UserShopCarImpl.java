@@ -75,7 +75,7 @@ public class UserShopCarImpl implements UserShopCarService {
 		}
 		UserShopCar update=new UserShopCar();
 		update.setId(list.get(0).getId());
-		update.setCount(list.get(0).getCount()+car.getCount());
+		update.setCount(car.getCount());
 		update.setUpdateTime(new Date());
 		int effect=dao.updateUserShopCar(update);
 		if(0>=effect) {
