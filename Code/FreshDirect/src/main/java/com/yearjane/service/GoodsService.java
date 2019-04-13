@@ -6,6 +6,7 @@ import com.yearjane.dto.FirstPageExecution;
 import com.yearjane.dto.GoodsExecution;
 import com.yearjane.dto.GoodsInfoSearch;
 import com.yearjane.dto.GoodsTypeExecution;
+import com.yearjane.dto.SearchPage;
 import com.yearjane.entity.GoodsInfo;
 import com.yearjane.entity.GoodsType;
 
@@ -90,5 +91,7 @@ public interface GoodsService {
 	 * @return
 	 */
 	public GoodsExecution  getSimilarGoods(GoodsInfo goodsInfo);
+	
+	public GoodsExecution getSearchPageGoods(SearchPage searchPage);
 	
 }

@@ -284,10 +284,64 @@
 	
 	<select id="searchSimilarGoods" resultMap="goodsInfoResultMap" >
 	SELECT * FROM t_g_info 
-	WHERE isdeleted=0 
+	WHERE isdeleted=0 AND isenable=1
 	  <if test="null!=goodsInfo.goodstype">
 		AND typeid=#{goodsInfo.goodstype.typeid}
 	  </if>
 	</select>
 	
+	<select id="getSearchPageGoods" resultMap="goodsInfoResultMap">
+	
+	SELECT * FROM t_g_info 
+	WHERE isdeleted=0  AND isenable=1
+	
+	<if test="null!=searchPage.keyWord">
+	  AND goods_name like '%${searchPage.keyWord}%'  OR introduce like '%${searchPage.keyWord}%'
+	</if>
+	
+	<if test="null!=searchPage.searchId">
+	  <if test="0==searchPage.searchId">
+	  AND old_price!=now_price
+	  </if>
+	  <if test="1==searchPage.searchId">
+	    AND clickcount>10
+	  </if>
+	  <if test="2==searchPage.searchId">
+	  AND create_time>=DATE_SUB(NOW(),INTERVAL 5 DAY)
+	  </if>
+	</if>
+	
+	<if test="null!=searchPage.typeid">
+	AND typeid=#{searchPage.typeid}
+	</if>
+	  
+	  ORDER BY  clickcount,create_time
+	   limit #{star},#{end}
+	</select>
+	
+	<select id="getSearchPageGoodsCount" resultType="integer">
+	SELECT count(1) FROM t_g_info 
+	WHERE isdeleted=0  AND isenable=1
+	
+	<if test="null!=searchPage.keyWord">
+	  AND goods_name like '%${searchPage.keyWord}%'  OR introduce like '%${searchPage.keyWord}%'
+	</if>
+	
+	<if test="null!=searchPage.searchId">
+	  <if test="0==searchPage.searchId">
+	  AND old_price!=now_price
+	  </if>
+	  <if test="1==searchPage.searchId">
+	    AND clickcount>10
+	  </if>
+	  <if test="2==searchPage.searchId">
+	  AND create_time>=DATE_SUB(NOW(),INTERVAL 5 DAY)
+	  </if>
+	</if>
+	
+	<if test="null!=searchPage.typeid">
+	AND typeid=#{searchPage.typeid}
+	</if>
+	 
+	</select>
 </mapper>

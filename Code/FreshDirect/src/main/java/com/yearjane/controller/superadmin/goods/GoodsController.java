@@ -25,6 +25,7 @@ import com.yearjane.dto.GoodsExecution;
 import com.yearjane.dto.GoodsInfoSearch;
 import com.yearjane.dto.GoodsTypeExecution;
 import com.yearjane.dto.GoodsTypeSearch;
+import com.yearjane.dto.SearchPage;
 import com.yearjane.entity.GoodsInfo;
 import com.yearjane.entity.GoodsType;
 import com.yearjane.entity.UserInfo;
@@ -359,5 +360,22 @@ public class GoodsController {
 		execution=service.getSimilarGoods(info);
 		map.put(GlobalParams.RESULT_MESSAGE, execution);
 		return map;
+	}
+	
+	/**
+	 * 搜索页商品的查询
+	 * @param searchPage
+	 * @return
+	 */
+	@PostMapping("/searchpagegoods")
+	@ResponseBody
+	public Map<String,Object> searchPageGoods(
+			@RequestBody SearchPage searchPage){
+		Map<String,Object> map=new HashMap<String,Object>();
+		GoodsExecution execution=new GoodsExecution();
+		execution=service.getSearchPageGoods(searchPage);
+		map.put(GlobalParams.RESULT_MESSAGE, execution);
+		return map;
+		
 	}
 }

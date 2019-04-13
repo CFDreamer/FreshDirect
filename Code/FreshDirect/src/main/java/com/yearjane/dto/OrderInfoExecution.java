@@ -9,6 +9,7 @@ public class OrderInfoExecution extends BaseExecution {
 	
 	private OrderInfo orderInfo;
 	private List<OrderInfo> orderInfoList;
+	private String errorMessage;
 	public OrderInfo getOrderInfo() {
 		return orderInfo;
 	}
@@ -22,6 +23,13 @@ public class OrderInfoExecution extends BaseExecution {
 		this.orderInfoList = orderInfoList;
 	}
 	
+	
+	public String getErrorMessage() {
+		return errorMessage;
+	}
+	public void setErrorMessage(String errorMessage) {
+		this.errorMessage = errorMessage;
+	}
 	/**
 	 * 
 	 * @param responseEnum
@@ -48,9 +56,9 @@ public class OrderInfoExecution extends BaseExecution {
 	 * @param orderInfoList
 	 * @param status
 	 */
-	public OrderInfoExecution(ResultResponseEnum responseEnum,List<OrderInfo> orderInfoList,Boolean status) {
+	public OrderInfoExecution(ResultResponseEnum responseEnum,String errorMessage,Boolean status) {
 		super(responseEnum,status);
-		this.orderInfoList=orderInfoList;
+		this.errorMessage=errorMessage;
 	}
 	
 	/**
@@ -58,5 +66,9 @@ public class OrderInfoExecution extends BaseExecution {
 	 */
 	public OrderInfoExecution() {
 		
+	}
+	public OrderInfoExecution(ResultResponseEnum responseEnum,List<OrderInfo> orderInfoList,Boolean status) {
+		super(responseEnum,status);
+		this.orderInfoList=orderInfoList;
 	}
 }

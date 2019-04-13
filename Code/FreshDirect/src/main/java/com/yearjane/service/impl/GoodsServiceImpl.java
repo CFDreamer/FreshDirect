@@ -15,6 +15,7 @@ import com.yearjane.dto.GoodsInfoSearch;
 import com.yearjane.dto.GoodsSearch;
 import com.yearjane.dto.GoodsTypeExecution;
 import com.yearjane.dto.Page;
+import com.yearjane.dto.SearchPage;
 import com.yearjane.entity.GoodsInfo;
 import com.yearjane.entity.GoodsType;
 import com.yearjane.enums.ResultResponseEnum;
@@ -240,6 +241,28 @@ public class GoodsServiceImpl implements GoodsService {
 		GoodsExecution execution=new GoodsExecution(ResultResponseEnum.SYSTEM_INNER_ERROR,false);
 		List<GoodsInfo> list=dao.searchSimilarGoods(goodsInfo);
 		execution=new GoodsExecution(ResultResponseEnum.RESULTOK, list, true);
+		return execution;
+	}
+
+	@Override
+	public GoodsExecution getSearchPageGoods(SearchPage searchPage) {
+		//System.err.println(searchPage);
+		GoodsExecution execution=new GoodsExecution(ResultResponseEnum.SYSTEM_INNER_ERROR,false);
+		if(null==searchPage.getPageSize()) {
+			searchPage.setPageSize(10);
+		}
+		int totalCount=dao.getSearchPageGoodsCount(searchPage);
+		//System.err.println(searchPage);
+		int totalPage=(totalCount%searchPage.getPageSize()==0)?(totalCount/searchPage.getPageSize()):(totalCount/searchPage.getPageSize())+1;
+		int pageNo=searchPage.getPageNo()>totalPage?1:searchPage.getPageNo();
+		int star=(pageNo-1)*searchPage.getPageSize();
+		List<GoodsInfo> list=new ArrayList<GoodsInfo>();
+		list=dao.getSearchPageGoods(searchPage, star, searchPage.getPageSize());
+		Page page=new Page();
+		page.setGoodList(list);
+		page.setTotalCount(totalCount);
+		page.setTotalPage(totalPage);
+		execution=new GoodsExecution(ResultResponseEnum.RESULTOK,page,true);
 		return execution;
 	}
 

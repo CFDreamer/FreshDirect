@@ -38,8 +38,8 @@
     <select id="getOrederInfos" resultMap="orderInfoMap">
      SELECT * FROM T_O_INFO
      WHERE isdeleted=0
-     <if test="null!=orderInfo.id">
-      AND id=#{orderInfo.id}
+     <if test="null!=orderInfo.ono">
+      AND ono=#{orderInfo.ono}
      </if>
      
      <if test="null!=orderInfo.state">
@@ -90,7 +90,7 @@
            isdeleted=1
         </if>
       </set>
-      WHERE id=#{orderInfo.id}
+      WHERE ono=#{orderInfo.ono}
     </update>
     
     <update  id="deleteOrderDetail">
@@ -159,6 +159,6 @@
        AND  isdefault=#{userAddress.isdefault}
       </if>
       
-      ORDER BY use_count
+      ORDER BY isdefault DESC
     </select>
 </mapper>

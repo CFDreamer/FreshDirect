@@ -39,7 +39,7 @@ public interface OrderDao {
 	public int deleteOrderDetail(@Param("orderDetail") OrderDetail orderDetail);
 	
 	/**
-	 * 分页查询订单记录
+	 * 查询订单记录
 	 * @param orderInfo
 	 * @param orderSearch
 	 * @param star

@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
 import com.yearjane.dto.GoodsInfoSearch;
+import com.yearjane.dto.SearchPage;
 import com.yearjane.entity.GoodsInfo;
 import com.yearjane.entity.GoodsType;
 
@@ -113,5 +114,19 @@ public interface GoodsDao {
 	 * @return
 	 */
 	public List<GoodsInfo> searchSimilarGoods(@Param("goodsInfo") GoodsInfo goodsInfo);
+	
+	/**
+	 * 查询搜索页的商品
+	 * @param searchPage
+	 * @return
+	 */
+	public List<GoodsInfo> getSearchPageGoods(@Param("searchPage") SearchPage searchPage,@Param("star") Integer star,@Param("end") Integer end);
+	
+	/**
+	 * 查询搜索页的商品数量
+	 * @param searchPage
+	 * @return
+	 */
+	public Integer getSearchPageGoodsCount(@Param("searchPage") SearchPage searchPage);
 	
 }
